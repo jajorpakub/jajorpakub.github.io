@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wsparcie dla Mileny Pajor - Strona informacyjna</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Strona informacyjna i zbiórka na leczenie Mileny Pajor">
+</head>
+<body>
+    <header>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Sekcja głównych informacji -->
+            <section class="info-section">
+                <div class="info-content">
+                    <h3>Opis sytuacji</h3>
+                    <p>Milena przebywa na izolatce, odcięta od świata! Doszło do przetoku na jelicie cienkim i treść pokarmowa wyciekła do jamy brzusznej. Ból jest niewyobrażalny, a do tego wycieńczony operacjami organizm córki zaatakowały bakterie!</p>
+                    
+                    <p>Pierwsze objawy choroby pojawiły się kilka lat temu – Milena schudła, była osłabiona i zmagała się z problemami żołądkowymi. Sytuacja była na tyle poważna, że trafiliśmy do szpitala i tam zdiagnozowano <strong>chorobę Leśniowskiego-Crohna</strong>.</p>
+                    
+                    <p>W kolejnych latach Milena przeszła próby leczenia sterydowego, a także biologicznego, jednak przy jego trzeciej dawce doszło do wstrząsu anafilaktycznego! <strong>Z czasem alergii było coraz więcej – na kolejne leki, na szwy.</strong> Stan córki był coraz gorszy, a w ostatnich tygodniach <strong>dramatycznie się pogorszył</strong>.</p>
+                    
+                    <p>W ciągu miesiąca Milenka przeszła kilka operacji laparoskopowych, a mimo to jej jelita wciąż się nie goją. <strong>Kilka dni temu doszło do kolejnego pęknięcia ścięgnego jelita cienkiego – treść pokarmowa wypłynęła z jelita do jamy brzusznej!</strong> Dodatkowo córka przeszła zapalenie płuc, ma problemy z gojeniem ran i odruczaniem szwów.</p>
+                    
+                    <p><strong>Lekarze w obecnym szpitalu przyznają, że to jeden z najtrudniejszych przypadków, z jakimi mieli do czynienia.</strong></p>
+                    
+                    <h3>Leczenie za granicą – jedyna nadzieja</h3>
+                    <p>Lekarstwo sprowadzane zza granicy nie przyniosło rezultatów, lekarze rozkładają ręce i mówią o prawdopodobnej konieczności przeszczepu żołądka i jelita. Sytuacja jest krytyczna, ale <strong>jako mama nie mogę się poddać</strong> – chcę zorganizować przeniesienie córki do innego ośrodka w Polsce lub, jeśli to możliwe, <strong>leczenie za granicą</strong>, gdzie specjaliści mają większe doświadczenie w tak trudnych przypadkach Crohna.</p>
+                    
+                    <p>Musiałam zrezygnować z pracy, aby być przy córce w szpitalu jako jej <strong>jedyny opiekun prawny</strong>. Przez to znaleźliśmy się w trudnej sytuacji finansowej – <strong>nie mamy już środków na dalsze leczenie, transport czy badania</strong>. Przyszedł czas, że muszę poprosić Was o pomoc!</p>
+                    
+                    <div class="appeal">
+                        <p><strong>Z całego serca proszę o wsparcie, by móc sfinansować dalsze leczenie i ratować zdrowie oraz życie Milenki. Każda pomoc – wpłaty, słowa otuchy, udostępnienia czy nawet pomysły, co jeszcze możemy zrobić – jest dla nas na wagę złota. Dziękuję za każde wsparcie i zrozumienie!</strong></p>
+                        <p><em>Anna, mama Mileny</em></p>
+                    </div>
+                    
+                    <p><strong>Cel zbiórki:</strong> Leczenie i rehabilitacja, konsultacje zagraniczne, diagnostyka</p>
+                    <p><strong>Link do oryginalnej zbiórki:</strong> <a href="https://www.siepomaga.pl/milena-pajor" target="_blank">https://www.siepomaga.pl/milena-pajor</a></p>
+                </div>
+            </section>            <!-- Sekcja z aktualizacjami -->
+            <section class="updates-section">
+                <h2>Najnowsze aktualizacje</h2>
+                <div id="updates-container">
+                    <!-- Aktualizacje będą tutaj dodawane -->
+                    <div class="update-item">
+                        <div class="update-date">25 października 2024</div>
+                        <div class="update-content">
+                            <p><strong>Aktualna sytuacja:</strong> Milena przebywa na izolatce w szpitalu po kolejnej operacji. Stan jest bardzo poważny - doszło do przetoku jelita cienkiego.</p>
+                            <p>Lekarze przyznają, że to jeden z najtrudniejszych przypadków choroby Crohna z jakimi mieli do czynienia. Rozważamy leczenie za granicą.</p>
+                            <p>Każda pomoc finansowa jest teraz kluczowa dla dalszego leczenia Mileny.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formularz do dodawania aktualizacji -->
+                <div class="admin-section" id="admin-section" style="display: none;">
+                    <h3>Dodaj nową aktualizację</h3>
+                    <form id="update-form">
+                        <textarea id="update-text" placeholder="Napisz aktualizację..." required></textarea>
+                        <button type="submit">Dodaj aktualizację</button>
+                    </form>
+                    <button id="toggle-admin" onclick="toggleAdmin()">Ukryj panel</button>
+                </div>
+                
+                <button id="show-admin" onclick="toggleAdmin()" style="margin-top: 20px;">Dodaj aktualizację</button>
+            </section>
+
+            <!-- Sekcja wsparcia finansowego -->
+            <section class="support-section">
+                <h2>Jak możesz pomóc</h2>
+                <div class="support-content">
+                    <p>Każda pomoc jest dla nas nieoceniona. Możesz wesprzeć nas finansowo:</p>
+                    
+                    <!-- Widget siepomaga.pl -->
+                    <div class="donation-widget">
+                        <h3>Zbiórka na siepomaga.pl</h3>
+                        <div id="siepomaga-widget">
+                            <div class="siepomaga-info">
+                                <h4>„To jeden z najtrudniejszych przypadków..." – choroba niszczy życie Mileny</h4>
+                                <p><strong>Cel:</strong> Leczenie i rehabilitacja, konsultacje zagraniczne, diagnostyka</p>
+                                
+                                <div class="donation-button">
+                                    <a href="https://www.siepomaga.pl/milena-pajor" target="_blank" class="btn-donate">
+                                        💚 WESPRZYJ MILENKĘ NA SIEPOMAGA.PL
+                                    </a>
+                                </div>
+                                
+                                <p><small>Kliknij powyżej, aby przejść bezpośrednio do zbiórki i przekazać darowiznę.</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alternatywne formy wsparcia -->
+                    <div class="donation-widget">
+                        <h3>Przelew prywatny</h3>
+                        <p><strong>Przelew bankowy:</strong></p>
+                        <p>Numer konta: [DODAJ NUMER KONTA]</p>
+                        <p>Tytuł: Wsparcie dla Mileny Pajor</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sekcja kontaktowa -->
+            <section class="contact-section">
+                <h2>Kontakt</h2>
+                <div class="contact-content">
+                    <p>W sprawie dodatkowych informacji lub pytań dotyczących Mileny:</p>
+                    <p><strong>Mama Mileny:</strong> Anna</p>
+                    <p><strong>Kontakt przez zbiórki:</strong> <a href="https://www.siepomaga.pl/milena-pajor" target="_blank">siepomaga.pl/milena-pajor</a></p>
+                    <p><strong>Lokalizacja:</strong> Bystra Podhalańska</p>
+                    
+                    <p><em>W przypadku pilnych spraw medycznych lub propozycji pomocy, prosimy o kontakt przez stronę zbiórki.</em></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Rodzina Pajor. Wszystkie prawa zastrzeżone.</p>
+            <p>Ostatnia aktualizacja: <span id="last-update"></span></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

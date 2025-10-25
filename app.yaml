@@ -1,0 +1,14 @@
+[package]
+name = "milena-support-site"
+version = "1.0.0"
+description = "Static website for Milena Pajor support"
+
+[dependencies]
+"wasmer/static-web-server" = "*"
+
+[[module]]
+name = "main"
+source = "wasmer/static-web-server"
+
+[fs]
+"/" = "."
