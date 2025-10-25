@@ -5,10 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
     <title>Wsparcie dla Mileny Pajor - Strona informacyjna</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="description" content="Strona informacyjna i zbiórka na leczenie Mileny Pajor">
 </head>
 <body>
     <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Strona główna</a>
+                    <a href="choroba.html" class="nav-link"><i class="fas fa-info-circle"></i> O chorobie</a>
+                    <a href="kontakt.html" class="nav-link"><i class="fas fa-envelope"></i> Kontakt</a>
+                </div>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+        <div class="header-content">
+            <div class="container">
+                <h1>Wsparcie dla Mileny Pajor</h1>
+                <p class="subtitle">Informacje i aktualizacje o stanie zdrowia</p>
+            </div>
+        </div>
     </header>
 
     <main>
@@ -84,7 +105,7 @@
                                 
                                 <div class="donation-button">
                                     <a href="https://www.siepomaga.pl/milena-pajor" target="_blank" class="btn-donate">
-                                        💚 WESPRZYJ MILENKĘ NA SIEPOMAGA.PL
+                                        <i class="fas fa-heart"></i> WESPRZYJ MILENKĘ NA SIEPOMAGA.PL
                                     </a>
                                 </div>
                                 

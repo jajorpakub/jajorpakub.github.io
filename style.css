@@ -65,12 +65,83 @@ html, body {
 header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 60px 0;
-    text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-header h1 {
+/* Navigation */
+.main-nav {
+    background: rgba(255,255,255,0.1);
+    padding: 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+    position: relative;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link i {
+    font-size: 1rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+}
+
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+/* Header content */
+.header-content {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.header-content h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
     font-weight: 300;
@@ -100,12 +171,26 @@ section h2 {
     font-size: 1.8rem;
     border-bottom: 2px solid #e9ecef;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+section h2 i {
+    font-size: 1.5rem;
 }
 
 section h3 {
     color: #495057;
     margin-bottom: 15px;
     font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+section h3 i {
+    font-size: 1.1rem;
 }
 
 /* Info section */
@@ -122,6 +207,22 @@ section h3 {
 
 .info-content p strong {
     color: #dc3545;
+}
+
+/* Style dla zwykłych list w info-content */
+.info-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.info-content li {
+    background: #f8f9fa;
+    margin: 8px 0;
+    padding: 12px 15px;
+    border-left: 4px solid #667eea;
+    border-radius: 5px;
+    text-align: left;
 }
 
 /* Updates section */
@@ -274,6 +375,11 @@ section h3 {
     box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
+.btn-donate i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
 .btn-donate:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
@@ -364,11 +470,54 @@ footer p {
         padding: 0 15px;
     }
     
-    header {
-        padding: 40px 0;
+    /* Mobilne menu */
+    .nav-links {
+        position: fixed;
+        top: 50px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background: rgba(102, 126, 234, 0.95);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 50px;
+        transition: left 0.3s ease;
+        z-index: 1000;
     }
     
-    header h1 {
+    .nav-links.mobile-active {
+        left: 0;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    .nav-link {
+        margin: 10px 0;
+        font-size: 1.2rem;
+        width: 80%;
+        text-align: center;
+    }
+    
+    header {
+        padding: 30px 0;
+    }
+    
+    .header-content h1 {
         font-size: 1.8rem;
         line-height: 1.2;
     }
@@ -422,6 +571,21 @@ footer p {
     .appeal {
         padding: 15px;
         font-size: 0.95rem;
+    }
+    
+    /* Mobilne style dla podstron */
+    .contact-reasons,
+    .contact-tips,
+    .quick-contact-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .treatment-type {
+        padding: 12px;
+    }
+    
+    .contact-person {
+        padding: 15px;
     }
 }
 
@@ -492,10 +656,348 @@ footer p {
         font-size: 0.9rem;
         width: 95%;
         max-width: 280px;
-        border-radius: 20px;
+    border-radius: 20px;
+}
+
+/* Nowe style dla podstron */
+
+/* Lista objawów i powikłań */
+.symptoms-list,
+.complications-list {
+    list-style: none;
+    padding: 0;
+}
+
+.symptoms-list li,
+.complications-list li {
+    background: #f8f9fa;
+    margin: 8px 0;
+    padding: 12px 15px;
+    border-left: 4px solid #667eea;
+    border-radius: 5px;
+}
+
+/* Tylko na desktopie robimy grid */
+@media (min-width: 768px) {
+    .symptoms-list,
+    .complications-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
     }
     
-    .patient-info {
+    .symptoms-list li,
+    .complications-list li {
+        margin: 0;
+        padding: 15px 20px;
+    }
+}
+
+/* Cele leczenia */
+.treatment-goals {
+    background: #e8f4f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.treatment-type {
+    background: #f8f9fa;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+}
+
+.treatment-type h4 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+.treatment-type ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 8px;
+}
+
+.treatment-type li {
+    background: rgba(255,255,255,0.7);
+    padding: 8px 12px;
+    border-radius: 5px;
+    border-left: 3px solid #28a745;
+    margin: 0;
+}
+
+/* Przypadek Mileny */
+.milena-case {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border: 2px solid #ffc107;
+}
+
+.milena-complications {
+    list-style: none;
+    padding: 0;
+}
+
+.milena-complications li {
+    background: rgba(255,255,255,0.7);
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-left: 4px solid #dc3545;
+    border-radius: 5px;
+}
+
+/* Tylko na desktopie robimy grid */
+@media (min-width: 768px) {
+    .milena-complications {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .milena-complications li {
+        margin: 0;
+        padding: 15px 20px;
+    }
+}
+
+.important-note {
+    background: #dc3545;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Lista zasobów */
+.resources-list {
+    list-style: none;
+    padding: 0;
+}
+
+.resources-list li {
+    margin: 10px 0;
+}
+
+.resources-list a {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.resources-list a:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+/* Strona kontaktowa */
+.contact-person {
+    background: #e8f4f8;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.contact-details {
+    margin: 15px 0;
+}
+
+.contact-details p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+}
+
+.contact-details i {
+    color: #667eea;
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.contact-details .fa-whatsapp {
+    color: #25D366;
+}
+
+.contact-details .fa-envelope {
+    color: #dc3545;
+}
+
+.contact-details .fa-map-marker-alt {
+    color: #fd7e14;
+}
+
+.contact-note {
+    background: rgba(255,255,255,0.8);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Wsparcie finansowe */
+.financial-support {
+    text-align: center;
+}
+
+.bank-details,
+.blik-details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.account-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #667eea;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+}
+
+.phone-number {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* Kategorie kontaktu */
+.contact-reasons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.reason-category {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-top: 4px solid #667eea;
+}
+
+.reason-category h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.reason-category ul {
+    list-style: none;
+    padding: 0;
+}
+
+.reason-category li {
+    padding: 5px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.reason-category li:last-child {
+    border-bottom: none;
+}
+
+/* Wskazówki kontaktowe */
+.contact-tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.tip {
+    background: #e8f4f8;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+}
+
+.tip h3 {
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+/* Prośba o wyrozumiałość */
+.understanding-request {
+    background: #fff3cd;
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid #ffc107;
+}
+
+.understanding-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.understanding-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,193,7,0.3);
+}
+
+.understanding-list li:last-child {
+    border-bottom: none;
+}
+
+.gratitude {
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Szybki kontakt */
+.quick-contact {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.quick-contact h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.quick-contact-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.quick-option {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.quick-option h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.quick-option a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.quick-option a:hover {
+    color: #ffc107;
+}    .patient-info {
         padding: 12px;
     }
     
@@ -544,7 +1046,11 @@ footer p {
         padding: 0 8px;
     }
     
-    header h1 {
+    .nav-container {
+        padding: 0 8px;
+    }
+    
+    .header-content h1 {
         font-size: 1.3rem;
     }
     
@@ -555,6 +1061,153 @@ footer p {
     .btn-donate {
         font-size: 0.85rem;
         padding: 8px 12px;
+        width: 95%;
+    }
+    
+    /* Napraw grid na bardzo małych ekranach */
+    .contact-reasons,
+    .contact-tips,
+    .quick-contact-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .reason-category,
+    .tip,
+    .quick-option {
+        padding: 12px;
+    }
+    
+    .treatment-type {
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .treatment-type ul {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+    
+    .treatment-type li {
+        padding: 6px 8px;
+        font-size: 0.85rem;
+    }
+    
+    .symptoms-list,
+    .complications-list,
+    .milena-complications {
+        gap: 10px;
+    }
+
+    .symptoms-list li,
+    .complications-list li,
+    .milena-complications li {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+    .account-number {
+        font-size: 1rem;
+        padding: 8px;
+        word-break: break-all;
+    }
+    
+    .contact-person {
+        padding: 12px;
+    }
+    
+    .financial-support .bank-details,
+    .financial-support .blik-details {
+        padding: 12px;
+    }
+    
+    .nav-link {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        margin: 8px 0;
+    }
+}
+
+/* Dodatkowe poprawki responsywności */
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 10px;
+    }
+    
+    .header-content {
+        padding: 25px 0;
+    }
+    
+    /* Poprawki dla podstron */
+    .contact-reasons,
+    .contact-tips,
+    .quick-contact-options {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .reason-category,
+    .tip,
+    .quick-option {
+        padding: 15px;
+    }
+    
+    .treatment-type {
+        padding: 12px;
+        margin: 12px 0;
+    }
+    
+    .symptoms-list li,
+    .complications-list li,
+    .milena-complications li {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        margin: 6px 0;
+    }
+    
+    .treatment-type {
+        padding: 12px;
+        margin: 12px 0;
+    }
+    
+    .treatment-type ul {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    
+    .treatment-type li {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .account-number {
+        font-size: 1rem;
+        padding: 8px;
+        word-break: break-all;
+        letter-spacing: 0.5px;
+    }
+    
+    .contact-person {
+        padding: 15px;
+    }
+    
+    .financial-support .bank-details,
+    .financial-support .blik-details {
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    .important-note {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .understanding-request {
+        padding: 15px;
+    }
+    
+    .gratitude {
+        padding: 15px;
+        font-size: 0.9rem;
     }
 }
 

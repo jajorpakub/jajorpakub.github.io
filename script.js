@@ -314,3 +314,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('Strona wsparcia załadowana. Dostępne funkcje w konsoli: window.familySupport');
+
+// Funkcja do obsługi mobilnego menu
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    
+    navLinks.classList.toggle('mobile-active');
+    toggle.classList.toggle('active');
+}
