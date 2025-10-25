@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
+    <title>Aktualizacje - Milena Pajor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Quill.js - nowoczesny edytor tekstu -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <meta name="description" content="Aktualizacje o stanie zdrowia Mileny Pajor">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-links" id="nav-links">
+                    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Strona główna</a>
+                    <a href="aktualizacje.html" class="nav-link active"><i class="fas fa-newspaper"></i> Aktualizacje</a>
+                    <a href="choroba.html" class="nav-link"><i class="fas fa-info-circle"></i> O chorobie</a>
+                    <a href="kontakt.html" class="nav-link"><i class="fas fa-envelope"></i> Kontakt</a>
+                    <a href="dokumentacja.html" class="nav-link"><i class="fas fa-file-medical"></i> Dokumentacja</a>
+                </div>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="header-content">
+            <div class="container">
+                <h1><i class="fas fa-newspaper"></i> Aktualizacje o Milenie</h1>
+                <p class="subtitle">Najnowsze informacje o stanie zdrowia</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            
+            <!-- Sekcja aktualności -->
+            <section id="updates">
+                <h2><i class="fas fa-clock"></i> Najnowsze aktualizacje</h2>
+                <div class="updates-info">
+                    <p><i class="fas fa-info-circle"></i> Tutaj znajdziecie najświeższe informacje o stanie zdrowia Mileny, postępach w leczeniu oraz ważnych wydarzeniach.</p>
+                    <p><strong>Ostatnia aktualizacja:</strong> <span id="last-update">Ładowanie...</span></p>
+                </div>
+                
+                <div id="updates-container">
+                    <!-- Przykładowa aktualizacja - zostanie zastąpiona przez rzeczywiste -->
+                    <div class="update-item">
+                        <div class="update-date">25 października 2024, 14:30</div>
+                        <div class="update-content">
+                            <p><em>To jest przykładowa aktualizacja. Po dodaniu pierwszej prawdziwej aktualizacji przez panel administratora, ta wiadomość zostanie ukryta.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel administratora dla aktualizacji -->
+                <div class="admin-controls">
+                    <button id="show-admin" onclick="toggleAdmin()">
+                        <i class="fas fa-plus"></i> Dodaj aktualizację
+                    </button>
+                    
+                    <div id="admin-section" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> Panel administratora</h3>
+                        <form id="update-form">
+                            <div class="modern-editor">
+                                <div id="quill-editor" style="height: 200px;"></div>
+                                <textarea id="update-text" style="display: none;" required maxlength="5000"></textarea>
+                            </div>
+                            <div class="admin-buttons">
+                                <button type="submit">
+                                    <i class="fas fa-save"></i> Dodaj aktualizację
+                                </button>
+                                <button type="button" id="toggle-admin" onclick="toggleAdmin()">
+                                    <i class="fas fa-times"></i> Anuluj
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Strona wsparcia dla Mileny Pajor</p>
+            <p>Aktualizacje o stanie zdrowia - <span id="footer-update-count">0</span> wpisów</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- Quill.js - nowoczesny edytor -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+        let quill = null;
+        
+        // Inicjalizacja edytora Quill
+        function initQuillEditor() {
+            if (quill) return; // Już zainicjalizowany
+            
+            quill = new Quill('#quill-editor', {
+                theme: 'snow',
+                placeholder: 'Wprowadź nową aktualizację o stanie Mileny...',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['link'],
+                        ['clean']
+                    ]
+                }
+            });
+            
+            // Synchronizuj z ukrytym textarea
+            quill.on('text-change', function() {
+                const textarea = document.getElementById('update-text');
+                textarea.value = quill.root.innerHTML;
+            });
+        }
+        
+        // Nadpisz oryginalną funkcję toggleAdmin
+        const originalToggleAdmin = toggleAdmin;
+        toggleAdmin = function() {
+            originalToggleAdmin();
+            
+            // Jeśli panel się otworzył, zainicjalizuj edytor
+            const adminSection = document.getElementById('admin-section');
+            if (adminSection.style.display !== 'none') {
+                setTimeout(initQuillEditor, 100);
+            } else if (quill) {
+                // Wyczyść edytor przy zamykaniu
+                quill.setContents([]);
+            }
+        };
+        
+        // Aktualizacja licznika wpisów w stopce
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFooterCounter();
+        });
+        
+        function updateFooterCounter() {
+            const updates = getUpdatesFromStorage();
+            const counter = document.getElementById('footer-update-count');
+            if (counter) {
+                counter.textContent = updates.length;
+            }
+        }
+    </script>
+</body>
+</html>

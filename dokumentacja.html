@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
+    <title>Dokumentacja medyczna - Milena Pajor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Prywatna dokumentacja medyczna Mileny Pajor">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-links" id="nav-links">
+                    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Strona główna</a>
+                    <a href="aktualizacje.html" class="nav-link"><i class="fas fa-newspaper"></i> Aktualizacje</a>
+                    <a href="choroba.html" class="nav-link"><i class="fas fa-info-circle"></i> O chorobie</a>
+                    <a href="kontakt.html" class="nav-link"><i class="fas fa-envelope"></i> Kontakt</a>
+                    <a href="dokumentacja.html" class="nav-link active"><i class="fas fa-file-medical"></i> Dokumentacja</a>
+                </div>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="header-content">
+            <div class="container">
+                <h1><i class="fab fa-google-drive"></i> Dokumentacja medyczna</h1>
+                <p class="subtitle">Dokumenty na Google Drive</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Sekcja autoryzacji -->
+            <section id="auth-section" class="auth-section">
+                <h2><i class="fas fa-lock"></i> Dostęp do dokumentacji</h2>
+                <div class="auth-content">
+                    <p>Ta sekcja zawiera prywatną dokumentację medyczną. Aby uzyskać dostęp, wprowadź hasło:</p>
+                    <div class="auth-form">
+                        <input type="password" id="doc-password" placeholder="Wprowadź hasło" maxlength="50">
+                        <button onclick="checkDocPassword()" id="auth-btn">
+                            <i class="fas fa-key"></i> Uzyskaj dostęp
+                        </button>
+                    </div>
+                    <p class="auth-note"><i class="fas fa-info-circle"></i> Hasło jest takie samo jak do panelu administratora</p>
+                </div>
+            </section>
+
+            <!-- Google Drive Content -->
+            <div id="documentation-content" style="display: none;">
+                
+                <!-- Podgląd Google Drive -->
+                <section class="doc-section" id="drive-viewer-section">
+                    <h2><i class="fas fa-folder-open"></i> Dokumenty medyczne - Milena</h2>
+                    <div class="drive-viewer">
+                        <div class="drive-toolbar">
+                            <button onclick="refreshDrive()" class="refresh-btn">
+                                <i class="fas fa-sync-alt"></i> Odśwież
+                            </button>
+                            <button onclick="openInDrive()" class="open-drive-btn">
+                                <i class="fas fa-external-link-alt"></i> Otwórz w Google Drive
+                            </button>
+                        </div>
+                        
+                        <!-- Iframe dla Google Drive -->
+                        <div class="drive-embed">
+                            <iframe id="drive-iframe" src="" frameborder="0" width="100%" height="600px">
+                                Twoja przeglądarka nie obsługuje iframe.
+                            </iframe>
+                        </div>
+                        
+                        <div class="drive-info">
+                            <p><i class="fas fa-info-circle"></i> 
+                            Tutaj są wszystkie dokumenty medyczne Mileny. Możesz przeglądać pliki, dodawać nowe dokumenty bezpośrednio w Google Drive.</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Strona wsparcia dla Mileny Pajor</p>
+            <p>Dokumentacja medyczna - dostęp tylko dla upoważnionych osób</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

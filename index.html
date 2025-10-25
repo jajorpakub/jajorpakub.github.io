@@ -14,8 +14,10 @@
             <div class="nav-container">
                 <div class="nav-links">
                     <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Strona główna</a>
+                    <a href="aktualizacje.html" class="nav-link"><i class="fas fa-newspaper"></i> Aktualizacje</a>
                     <a href="choroba.html" class="nav-link"><i class="fas fa-info-circle"></i> O chorobie</a>
                     <a href="kontakt.html" class="nav-link"><i class="fas fa-envelope"></i> Kontakt</a>
+                    <a href="dokumentacja.html" class="nav-link"><i class="fas fa-file-medical"></i> Dokumentacja</a>
                 </div>
                 <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                     <span></span>
@@ -61,32 +63,21 @@
                     <p><strong>Cel zbiórki:</strong> Leczenie i rehabilitacja, konsultacje zagraniczne, diagnostyka</p>
                     <p><strong>Link do oryginalnej zbiórki:</strong> <a href="https://www.siepomaga.pl/milena-pajor" target="_blank">https://www.siepomaga.pl/milena-pajor</a></p>
                 </div>
-            </section>            <!-- Sekcja z aktualizacjami -->
-            <section class="updates-section">
-                <h2>Najnowsze aktualizacje</h2>
-                <div id="updates-container">
-                    <!-- Aktualizacje będą tutaj dodawane -->
-                    <div class="update-item">
-                        <div class="update-date">25 października 2024</div>
-                        <div class="update-content">
-                            <p><strong>Aktualna sytuacja:</strong> Milena przebywa na izolatce w szpitalu po kolejnej operacji. Stan jest bardzo poważny - doszło do przetoku jelita cienkiego.</p>
-                            <p>Lekarze przyznają, że to jeden z najtrudniejszych przypadków choroby Crohna z jakimi mieli do czynienia. Rozważamy leczenie za granicą.</p>
-                            <p>Każda pomoc finansowa jest teraz kluczowa dla dalszego leczenia Mileny.</p>
-                        </div>
+            </section>            <!-- Aktualizacje - link do podstrony -->
+            <section class="updates-preview-section">
+                <h2><i class="fas fa-newspaper"></i> Aktualizacje o Milenie</h2>
+                <div class="updates-preview">
+                    <p>Śledź najnowsze informacje o stanie zdrowia Mileny i postępach w leczeniu.</p>
+                    <div class="preview-actions">
+                        <a href="aktualizacje.html" class="btn-updates">
+                            <i class="fas fa-newspaper"></i> Zobacz wszystkie aktualizacje
+                        </a>
+                        <p class="preview-note">
+                            <i class="fas fa-clock"></i> 
+                            Ostatnia aktualizacja: <span id="last-update-preview">Ładowanie...</span>
+                        </p>
                     </div>
                 </div>
-                
-                <!-- Formularz do dodawania aktualizacji -->
-                <div class="admin-section" id="admin-section" style="display: none;">
-                    <h3>Dodaj nową aktualizację</h3>
-                    <form id="update-form">
-                        <textarea id="update-text" placeholder="Napisz aktualizację..." required></textarea>
-                        <button type="submit">Dodaj aktualizację</button>
-                    </form>
-                    <button id="toggle-admin" onclick="toggleAdmin()">Ukryj panel</button>
-                </div>
-                
-                <button id="show-admin" onclick="toggleAdmin()" style="margin-top: 20px;">Dodaj aktualizację</button>
             </section>
 
             <!-- Sekcja wsparcia finansowego -->

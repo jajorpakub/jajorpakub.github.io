@@ -5,7 +5,40 @@ document.addEventListener('DOMContentLoaded', function() {
     updateLastModified();
     loadUpdatesFromStorage();
     initializeUpdateForm();
+    updateLastUpdatePreview(); // Nowa funkcja dla preview
+    
+    // Sprawdź czy admin był zalogowany
+    const isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+    if (isAdminLoggedIn) {
+        const adminSection = document.getElementById('admin-section');
+        const showButton = document.getElementById('show-admin');
+        if (adminSection && showButton) {
+            adminSection.style.display = 'block';
+            showButton.style.display = 'none';
+        }
+    }
 });
+
+// Aktualizacja preview ostatniej aktualizacji na stronie głównej
+function updateLastUpdatePreview() {
+    const lastUpdatePreview = document.getElementById('last-update-preview');
+    if (lastUpdatePreview) {
+        const updates = getUpdatesFromStorage();
+        if (updates.length > 0) {
+            const lastUpdate = new Date(updates[0].date);
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            };
+            lastUpdatePreview.textContent = lastUpdate.toLocaleDateString('pl-PL', options);
+        } else {
+            lastUpdatePreview.textContent = 'Brak aktualizacji';
+        }
+    }
+}
 
 // Aktualizacja daty ostatniej modyfikacji
 function updateLastModified() {
@@ -41,6 +74,12 @@ function toggleAdmin() {
         adminSection.style.display = 'block';
         showButton.style.display = 'none';
         
+        // Zapisz stan logowania
+        localStorage.setItem('isAdminLoggedIn', 'true');
+        
+        // Odśwież widok aktualizacji (pokaż przyciski usuwania)
+        refreshUpdatesView();
+        
         // Fokus na pole tekstowe dla wygody
         setTimeout(() => {
             const textarea = document.getElementById('update-text');
@@ -50,7 +89,25 @@ function toggleAdmin() {
     } else {
         adminSection.style.display = 'none';
         showButton.style.display = 'block';
+        
+        // Usuń stan logowania
+        localStorage.setItem('isAdminLoggedIn', 'false');
+        
+        // Odśwież widok aktualizacji (ukryj przyciski usuwania)
+        refreshUpdatesView();
     }
+}
+
+// Odświeżanie widoku aktualizacji (pokazanie/ukrycie przycisków usuwania)
+function refreshUpdatesView() {
+    const updatesContainer = document.getElementById('updates-container');
+    if (!updatesContainer) return;
+    
+    // Wyczyść kontener
+    updatesContainer.innerHTML = '';
+    
+    // Załaduj ponownie aktualizacje z uwzględnieniem stanu logowania
+    loadUpdatesFromStorage();
 }
 
 // Inicjalizacja formularza aktualizacji
@@ -66,15 +123,28 @@ function handleUpdateSubmission(event) {
     event.preventDefault();
     
     const textarea = document.getElementById('update-text');
-    const updateText = textarea.value.trim();
+    let updateText = textarea.value.trim();
     
-    if (updateText === '') {
+    // Jeśli to HTML z Quill, usuń puste tagi
+    if (updateText.startsWith('<p>') && updateText !== '<p><br></p>') {
+        updateText = updateText.replace(/<p><br><\/p>/g, '').replace(/^<p>|<\/p>$/g, '');
+        if (updateText === '' || updateText === '<br>') {
+            alert('Proszę wprowadzić treść aktualizacji.');
+            return;
+        }
+    } else if (updateText === '' || updateText === '<p><br></p>') {
         alert('Proszę wprowadzić treść aktualizacji.');
         return;
     }
     
     addNewUpdate(updateText);
     textarea.value = '';
+    
+    // Wyczyść też edytor Quill jeśli istnieje
+    if (typeof quill !== 'undefined' && quill) {
+        quill.setContents([]);
+    }
+    
     toggleAdmin();
     
     // Potwierdzenie dla użytkownika
@@ -86,15 +156,20 @@ function addNewUpdate(text) {
     const updatesContainer = document.getElementById('updates-container');
     const now = new Date();
     const dateString = formatDate(now);
+    const updateId = Date.now(); // Unikalny ID dla aktualizacji
     
     // Tworzenie nowego elementu aktualizacji
     const updateElement = document.createElement('div');
     updateElement.className = 'update-item';
+    updateElement.setAttribute('data-update-id', updateId);
     updateElement.innerHTML = `
         <div class="update-date">${dateString}</div>
         <div class="update-content">
             <p>${formatUpdateText(text)}</p>
         </div>
+        <button class="delete-update-btn" onclick="deleteUpdate(${updateId})" title="Usuń aktualizację">
+            <i class="fas fa-trash"></i>
+        </button>
     `;
     
     // Dodanie na początku listy
@@ -105,8 +180,8 @@ function addNewUpdate(text) {
         updatesContainer.appendChild(updateElement);
     }
     
-    // Zapisanie do localStorage
-    saveUpdateToStorage(text, now);
+    // Zapisanie do localStorage z ID
+    saveUpdateToStorage(text, now, updateId);
     
     // Aktualizacja daty ostatniej modyfikacji
     updateLastModified();
@@ -139,13 +214,14 @@ function formatUpdateText(text) {
 }
 
 // Zapisywanie aktualizacji do localStorage
-function saveUpdateToStorage(text, date) {
+function saveUpdateToStorage(text, date, updateId = null) {
     let updates = getUpdatesFromStorage();
-    updates.unshift({
+    const newUpdate = {
         text: text,
         date: date.toISOString(),
-        id: Date.now()
-    });
+        id: updateId || Date.now()
+    };
+    updates.unshift(newUpdate);
     
     // Ograniczenie do 50 najnowszych aktualizacji
     if (updates.length > 50) {
@@ -176,19 +252,63 @@ function loadUpdatesFromStorage() {
         exampleUpdate.remove();
     }
     
+    // Sprawdź czy użytkownik jest zalogowany jako admin
+    const isAdmin = localStorage.getItem('isAdminLoggedIn') === 'true';
+    
     // Dodaj zapisane aktualizacje
     updates.forEach(update => {
         const date = new Date(update.date);
         const updateElement = document.createElement('div');
         updateElement.className = 'update-item';
+        updateElement.setAttribute('data-update-id', update.id || Date.now());
+        
         updateElement.innerHTML = `
             <div class="update-date">${formatDate(date)}</div>
             <div class="update-content">
                 <p>${formatUpdateText(update.text)}</p>
             </div>
+            ${isAdmin ? `<button class="delete-update-btn" onclick="deleteUpdate(${update.id || Date.now()})" title="Usuń aktualizację">
+                <i class="fas fa-trash"></i>
+            </button>` : ''}
         `;
         updatesContainer.appendChild(updateElement);
     });
+}
+
+// Funkcja usuwania aktualizacji
+function deleteUpdate(updateId) {
+    // Sprawdź czy użytkownik jest zalogowany jako admin
+    const isAdmin = localStorage.getItem('isAdminLoggedIn') === 'true';
+    if (!isAdmin) {
+        alert('Brak uprawnień do usuwania aktualizacji.');
+        return;
+    }
+    
+    // Potwierdź usunięcie
+    if (!confirm('Czy na pewno chcesz usunąć tę aktualizację?')) {
+        return;
+    }
+    
+    // Usuń z localStorage
+    let updates = getUpdatesFromStorage();
+    updates = updates.filter(update => update.id !== updateId);
+    localStorage.setItem('familyUpdates', JSON.stringify(updates));
+    
+    // Usuń element z DOM
+    const updateElement = document.querySelector(`[data-update-id="${updateId}"]`);
+    if (updateElement) {
+        // Animacja znikania
+        updateElement.style.transition = 'all 0.3s ease';
+        updateElement.style.opacity = '0';
+        updateElement.style.transform = 'translateX(-100%)';
+        
+        setTimeout(() => {
+            updateElement.remove();
+        }, 300);
+    }
+    
+    // Aktualizacja daty ostatniej modyfikacji
+    updateLastModified();
 }
 
 // Funkcja do eksportu aktualizacji (przydatna do backupu)
@@ -322,4 +442,168 @@ function toggleMobileMenu() {
     
     navLinks.classList.toggle('mobile-active');
     toggle.classList.toggle('active');
+}
+
+// ===== UPROSZCZONA INTEGRACJA Z GOOGLE DRIVE =====
+
+// Sprawdzenie hasła do dokumentacji
+function checkDocPassword() {
+    const passwordInput = document.getElementById('doc-password');
+    const password = passwordInput.value.trim();
+    const correctPassword = 'Anna123'; // To samo hasło co do admina
+    
+    if (password === correctPassword) {
+        // Ukryj sekcję autoryzacji
+        document.getElementById('auth-section').style.display = 'none';
+        // Pokaż zawartość dokumentacji
+        document.getElementById('documentation-content').style.display = 'block';
+        // Załaduj zapisany folder Drive
+        loadDriveConfig();
+        // Zapisz stan logowania
+        sessionStorage.setItem('docAuthenticated', 'true');
+    } else {
+        alert('Nieprawidłowe hasło!');
+        passwordInput.value = '';
+        passwordInput.focus();
+    }
+}
+
+// Obsługa Enter w polu hasła
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('doc-password');
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkDocPassword();
+            }
+        });
+        
+        // Sprawdź czy już jest zalogowany w tej sesji
+        if (sessionStorage.getItem('docAuthenticated') === 'true') {
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('documentation-content').style.display = 'block';
+            loadDriveConfig();
+        }
+    }
+});
+
+// Ustawienie folderu Google Drive
+function setDriveFolder() {
+    const urlInput = document.getElementById('drive-folder-url');
+    const url = urlInput.value.trim();
+    
+    if (!url) {
+        alert('Proszę wprowadzić link do folderu.');
+        return;
+    }
+    
+    if (!url.includes('drive.google.com')) {
+        alert('To nie wygląda na link do Google Drive.');
+        return;
+    }
+    
+    // Zapisz URL
+    localStorage.setItem('driveFolder', url);
+    
+    // Pokaż viewer
+    showDriveViewer(url);
+    
+    alert('Folder został zapisany!');
+}
+
+// Pokazanie viewera Google Drive
+function showDriveViewer(url) {
+    const viewerSection = document.getElementById('drive-viewer-section');
+    const iframe = document.getElementById('drive-iframe');
+    
+    // Konwertuj URL na format embed
+    let embedUrl = convertToEmbedUrl(url);
+    
+    if (embedUrl) {
+        iframe.src = embedUrl;
+        viewerSection.style.display = 'block';
+        
+        // Zapisz również embed URL
+        localStorage.setItem('driveEmbedUrl', embedUrl);
+    } else {
+        alert('Nie udało się przetworzyć linku. Sprawdź czy folder jest publiczny.');
+    }
+}
+
+// Konwersja URL na format embed
+function convertToEmbedUrl(url) {
+    try {
+        // Różne formaty linków Google Drive
+        if (url.includes('/folders/')) {
+            // Format: https://drive.google.com/drive/folders/ID
+            const folderId = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+            if (folderId) {
+                return `https://drive.google.com/embeddedfolderview?id=${folderId[1]}#grid`;
+            }
+        }
+        
+        if (url.includes('?id=')) {
+            // Format: https://drive.google.com/drive/folders?id=ID
+            const folderId = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (folderId) {
+                return `https://drive.google.com/embeddedfolderview?id=${folderId[1]}#grid`;
+            }
+        }
+        
+        // Jeśli nic nie pasuje, spróbuj oryginalny URL
+        return url;
+        
+    } catch (error) {
+        console.error('Błąd podczas konwersji URL:', error);
+        return null;
+    }
+}
+
+// Ładowanie konfiguracji Drive
+function loadDriveConfig() {
+    // Domyślny folder - zawsze ten sam
+    const defaultUrl = 'https://drive.google.com/drive/folders/1O3TvboZU8er6acag193LQyoWGbDjV1KN?usp=sharing';
+    
+    // Konwertuj na prawidłowy embed URL
+    const embedUrl = `https://drive.google.com/embeddedfolderview?id=1O3TvboZU8er6acag193LQyoWGbDjV1KN#grid`;
+    
+    // Od razu pokaż viewer z tym folderem
+    const viewerSection = document.getElementById('drive-viewer-section');
+    const iframe = document.getElementById('drive-iframe');
+    
+    if (iframe && viewerSection) {
+        iframe.src = embedUrl;
+        viewerSection.style.display = 'block';
+    }
+}
+
+// Odświeżenie Drive
+function refreshDrive() {
+    const iframe = document.getElementById('drive-iframe');
+    const currentSrc = iframe.src;
+    
+    if (currentSrc) {
+        // Wymuszenie ponownego załadowania
+        iframe.src = '';
+        setTimeout(() => {
+            iframe.src = currentSrc;
+        }, 100);
+        
+        // Pokaż loading
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Odświeżanie...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }, 2000);
+    }
+}
+
+// Otworzenie w Google Drive
+function openInDrive() {
+    const folderUrl = 'https://drive.google.com/drive/folders/1O3TvboZU8er6acag193LQyoWGbDjV1KN?usp=sharing';
+    window.open(folderUrl, '_blank');
 }
