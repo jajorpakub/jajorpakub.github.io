@@ -29,8 +29,24 @@ function toggleAdmin() {
     const showButton = document.getElementById('show-admin');
     
     if (adminSection.style.display === 'none' || adminSection.style.display === '') {
+        // Sprawdź hasło przed pokazaniem panelu
+        const password = prompt('Wprowadź hasło aby dodać aktualizację:');
+        const correctPassword = 'Anna123'; // Proste hasło dla mamy
+        
+        if (password !== correctPassword) {
+            alert('Nieprawidłowe hasło! Skontaktuj się z administratorem.');
+            return;
+        }
+        
         adminSection.style.display = 'block';
         showButton.style.display = 'none';
+        
+        // Fokus na pole tekstowe dla wygody
+        setTimeout(() => {
+            const textarea = document.getElementById('update-text');
+            if (textarea) textarea.focus();
+        }, 100);
+        
     } else {
         adminSection.style.display = 'none';
         showButton.style.display = 'block';
@@ -60,6 +76,9 @@ function handleUpdateSubmission(event) {
     addNewUpdate(updateText);
     textarea.value = '';
     toggleAdmin();
+    
+    // Potwierdzenie dla użytkownika
+    alert('Aktualizacja została dodana pomyślnie! ✅');
 }
 
 // Dodawanie nowej aktualizacji

@@ -5,18 +5,60 @@
     box-sizing: border-box;
 }
 
+/* Ulepszenia dla urządzeń dotykowych */
+button, a, input, textarea {
+    touch-action: manipulation;
+}
+
+/* Większe obszary dotykowe na mobilkach */
+@media (max-width: 768px) {
+    a, button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
     background-color: #f8f9fa;
     text-align: center;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+/* Lepsze style dla linków na mobilkach */
+a {
+    color: #667eea;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+    color: #5a6fd8;
+}
+
+/* Lepsze formatowanie długich tekstów */
+p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Zapobieganie poziomemu przewijaniu */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
 }
 
 /* Header */
@@ -322,8 +364,13 @@ footer p {
         padding: 0 15px;
     }
     
+    header {
+        padding: 40px 0;
+    }
+    
     header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        line-height: 1.2;
     }
     
     .subtitle {
@@ -331,41 +378,183 @@ footer p {
     }
     
     section {
-        padding: 20px;
-        margin-bottom: 20px;
+        padding: 20px 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
     }
     
     section h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+    
+    section h3 {
+        font-size: 1.2rem;
+        margin: 20px 0 10px 0;
+    }
+    
+    .info-content p {
+        font-size: 1rem;
+        line-height: 1.5;
     }
     
     .update-item {
         padding: 15px;
+        margin-bottom: 15px;
     }
     
     .donation-widget {
         padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .btn-donate {
+        padding: 12px 20px;
+        font-size: 1rem;
+        width: 90%;
+        max-width: 300px;
+    }
+    
+    .patient-info {
+        padding: 15px;
+    }
+    
+    .appeal {
+        padding: 15px;
+        font-size: 0.95rem;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+    
     header {
-        padding: 40px 0;
+        padding: 30px 0;
     }
     
     header h1 {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .container {
+        padding: 0 10px;
     }
     
     section {
-        padding: 15px;
+        padding: 15px 10px;
+        margin-bottom: 10px;
+    }
+    
+    section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+    
+    section h3 {
+        font-size: 1.1rem;
+        margin: 15px 0 8px 0;
+    }
+    
+    .info-content p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin-bottom: 12px;
+    }
+    
+    .update-item {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .update-date {
+        font-size: 0.8rem;
+    }
+    
+    .donation-widget {
+        padding: 12px;
+        margin: 10px 0;
+    }
+    
+    .siepomaga-info h4 {
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+    
+    .btn-donate {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 95%;
+        max-width: 280px;
+        border-radius: 20px;
+    }
+    
+    .patient-info {
+        padding: 12px;
+    }
+    
+    .patient-info p {
+        font-size: 0.9rem;
+    }
+    
+    .appeal {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+    
+    .contact-content p {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .admin-section {
+        padding: 12px;
     }
     
     .admin-section button {
         display: block;
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         margin-right: 0;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .admin-section textarea {
+        min-height: 80px;
+        font-size: 0.9rem;
+    }
+    
+    #show-admin {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Bardzo małe ekrany (mniej niż 360px) */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 8px;
+    }
+    
+    header h1 {
+        font-size: 1.3rem;
+    }
+    
+    section {
+        padding: 12px 8px;
+    }
+    
+    .btn-donate {
+        font-size: 0.85rem;
+        padding: 8px 12px;
     }
 }
 
