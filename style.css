@@ -1,5 +1,5 @@
 /* Reset i podstawowe style */
-/* Ostatnia aktualizacja: 25.10.2025 14*/
+/* Ostatnia aktualizacja: 25.10.2025 ada14*/
 * {
     margin: 0;
     padding: 0;
@@ -213,20 +213,20 @@ section h3 i {
 .timer-display {
     display: flex;
     justify-content: center;
-    gap: 50px;
-    margin-bottom: 30px;
+    gap: 30px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
 .timer-section {
     flex: 1;
-    min-width: 320px;
+    min-width: 280px;
 }
 
 .timer-section h3 {
     color: #333;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
     font-weight: 500;
     text-align: center;
     display: block !important;
@@ -237,14 +237,14 @@ section h3 i {
 .timer-row {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
 }
 
 .timer-unit {
     border-radius: 8px;
-    padding: 15px 10px;
-    min-width: 60px;
+    padding: 10px 8px;
+    min-width: 50px;
     text-align: center;
 }
 
@@ -276,7 +276,7 @@ section h3 i {
 @media (max-width: 768px) {
     .timer-display {
         flex-direction: column;
-        gap: 30px;
+        gap: 20px;
     }
     
     .timer-section {
@@ -284,21 +284,22 @@ section h3 i {
     }
     
     .timer-row {
-        gap: 10px;
+        gap: 8px;
     }
     
     .timer-unit {
-        min-width: 50px;
-        padding: 10px 8px;
+        min-width: 45px;
+        padding: 8px 6px;
     }
     
     .timer-value {
-        font-size: 2rem;
-        padding: 6px 10px;
+        font-size: 1.8rem;
+        padding: 5px 8px;
     }
     
     .timer-section h3 {
         font-size: 1rem;
+        margin-bottom: 6px;
     }
 }
 
@@ -318,59 +319,85 @@ section h3 i {
     }
 }
 
-/* Operations counter */
-.operations-counter {
+/* Procedures counter - nowe trackery operacji i zabiegów */
+.procedures-counter {
     text-align: center;
-    margin-top: 30px;
-    padding-top: 20px;
+    margin-top: 5px;
+    padding-top: 10px;
     border-top: 2px solid rgba(102, 126, 234, 0.3);
 }
 
-.operations-title {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 15px;
+.procedures-display {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.operations-value {
-    font-size: 3rem;
+.procedure-item {
+    text-align: center;
+}
+
+.procedure-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.procedure-value {
+    font-size: 2.5rem;
     font-weight: bold;
     color: #333;
     font-family: 'Courier New', monospace;
     border: 2px solid #000;
     background: #fff;
     border-radius: 8px;
-    padding: 15px 25px;
+    padding: 8px 16px;
     display: inline-block;
     text-shadow: none;
+    transition: all 0.3s ease;
 }
 
-/* Responsive operations counter */
+.procedure-value:hover {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+/* Responsive procedures counter */
 @media (max-width: 768px) {
-    .operations-counter {
-        margin-top: 20px;
-        padding-top: 15px;
+    .procedures-counter {
+        margin-top: 4px;
+        padding-top: 8px;
     }
     
-    .operations-title {
+    .procedures-display {
+        gap: 25px;
+    }
+    
+    .procedure-title {
         font-size: 1rem;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
     }
     
-    .operations-value {
-        font-size: 2.5rem;
-        padding: 12px 20px;
+    .procedure-value {
+        font-size: 2rem;
+        padding: 6px 12px;
     }
 }
 
 @media (max-width: 480px) {
-    .operations-value {
-        font-size: 2rem;
-        padding: 10px 18px;
+    .procedures-display {
+        flex-direction: column;
+        gap: 15px;
     }
     
-    .operations-title {
+    .procedure-value {
+        font-size: 1.8rem;
+        padding: 6px 12px;
+    }
+    
+    .procedure-title {
         font-size: 0.9rem;
     }
 }
@@ -1445,6 +1472,496 @@ section {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Nowe animacje i efekty */
+
+/* Pulsujący efekt dla ważnych elementów */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Animacja pojawienia się z efektem blur */
+@keyframes fadeInBlur {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+
+/* Animacja dla timerów i trackera pieniędzy */
+@keyframes timerGlow {
+    0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+    100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
+}
+
+@keyframes moneyGlow {
+    0% { box-shadow: 0 0 5px rgba(40, 167, 69, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(40, 167, 69, 0.6); }
+    100% { box-shadow: 0 0 5px rgba(40, 167, 69, 0.3); }
+}
+
+@keyframes thanksGlow {
+    0% { 
+        text-shadow: 0 0 8px rgba(220, 53, 69, 0.8), 0 0 16px rgba(220, 53, 69, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        text-shadow: 0 0 15px rgba(220, 53, 69, 1), 0 0 25px rgba(220, 53, 69, 0.7), 0 0 35px rgba(220, 53, 69, 0.3);
+        transform: scale(1.05);
+    }
+    100% { 
+        text-shadow: 0 0 8px rgba(220, 53, 69, 0.8), 0 0 16px rgba(220, 53, 69, 0.4);
+        transform: scale(1);
+    }
+}
+
+/* Gradient animowany dla tła */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Floating animacja */
+@keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Wiggle animacja */
+@keyframes wiggle {
+    0%, 7%, 14%, 21%, 28%, 35%, 42%, 49%, 56%, 63%, 70%, 77%, 84%, 91%, 98%, 100% {
+        transform: rotate(0deg);
+    }
+    4%, 11%, 18%, 25%, 32%, 39%, 46%, 53%, 60%, 67%, 74%, 81%, 88%, 95% {
+        transform: rotate(-2deg);
+    }
+}
+
+/* Shake animacja dla przycisków */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Aplikowanie animacji do elementów */
+
+/* Header z animowanym gradientem */
+header {
+    background: linear-gradient(-45deg, #667eea, #764ba2, #667eea, #5a6fd8);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Sekcje z opóźnioną animacją */
+section:nth-child(1) {
+    animation: fadeInBlur 0.8s ease-out 0.1s both;
+}
+
+section:nth-child(2) {
+    animation: fadeInBlur 0.8s ease-out 0.3s both;
+}
+
+section:nth-child(3) {
+    animation: fadeInBlur 0.8s ease-out 0.5s both;
+}
+
+section:nth-child(4) {
+    animation: fadeInBlur 0.8s ease-out 0.7s both;
+}
+
+/* Timer z efektami */
+.timer-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+    text-shadow: none;
+    border: 2px solid #000;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    display: inline-block;
+    animation: timerGlow 3s ease-in-out infinite;
+}
+
+.timer-value:hover {
+    animation: pulse 0.6s ease-in-out;
+    transform: scale(1.1);
+}
+
+/* Operations counter z animacją */
+.operations-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Courier New', monospace;
+    border: 2px solid #000;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: inline-block;
+    text-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.operations-value:hover {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+/* Przyciski z animacjami */
+.btn-donate {
+    display: inline-block;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 8px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-donate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-donate:hover::before {
+    left: 100%;
+}
+
+.btn-donate:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
+    color: white;
+    text-decoration: none;
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Sekcje z hover effectami */
+section {
+    background: white;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+section:hover::before {
+    opacity: 1;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+section > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Money Tracker - tylko zmniejszone odstępy */
+.money-tracker {
+    margin: 10px 0 2px 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.tracker-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tracker-title {
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.money-display {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.money-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #28a745;
+    font-family: 'Courier New', monospace;
+    border: 2px solid #28a745;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: inline-block;
+    text-shadow: none;
+    animation: moneyGlow 4s ease-in-out infinite;
+}
+
+.money-currency {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #28a745;
+    margin-left: 3px;
+}
+
+.tracker-thanks {
+    color: #dc3545;
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 0 8px rgba(220, 53, 69, 0.8), 0 0 16px rgba(220, 53, 69, 0.4);
+    animation: thanksGlow 3s ease-in-out infinite;
+    filter: drop-shadow(2px 2px 4px rgba(220, 53, 69, 0.3));
+}
+
+/* Responsive money tracker */
+@media (max-width: 768px) {
+    .money-tracker {
+        margin: 8px 0 4px 0;
+        padding: 8px 0;
+    }
+    
+    .tracker-title {
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+    
+    .money-value {
+        font-size: 2rem;
+        padding: 6px 12px;
+    }
+    
+    .money-currency {
+        font-size: 1.1rem;
+    }
+    
+    .tracker-thanks {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .money-value {
+        font-size: 1.6rem;
+        padding: 5px 10px;
+    }
+    
+    .money-currency {
+        font-size: 1rem;
+    }
+    
+    .tracker-title {
+        font-size: 0.9rem;
+    }
+    
+    .tracker-thanks {
+        font-size: 0.9rem;
+    }
+}
+
+/* Hospitalization Timer - tylko zmniejszone odstępy */
+.hospitalization-timer {
+    margin: 2px 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.timer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Update items z lepszymi animacjami */
+.update-item {
+    border-left: 4px solid #667eea;
+    padding-left: 20px;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.update-item:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+    border-left-color: #5a6fd8;
+}
+
+/* Navigation z hover effects */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Info content z animowanymi paragrafami */
+.info-content p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.info-content p:hover {
+    background: rgba(102, 126, 234, 0.05);
+    transform: translateX(5px);
+}
+
+/* Special effects dla ważnych elementów - bez pulsowania */
+.appeal {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+    margin: 25px 0;
+    font-style: italic;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.appeal::before {
+    content: '✨';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    animation: floating 2s ease-in-out infinite;
+}
+
+/* Contact details z animacjami */
+.contact-details i {
+    color: #667eea;
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-details p:hover i {
+    transform: scale(1.2) rotate(10deg);
+    color: #5a6fd8;
+}
+
+/* Loading spinner dla przyszłych funkcjonalności */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Smooth scrolling dla całej strony */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Efekt paralaksy dla headersa */
+@media (prefers-reduced-motion: no-preference) {
+    .header-content {
+        animation: floating 6s ease-in-out infinite;
     }
 }
 

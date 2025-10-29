@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
     <title>Wsparcie dla Mileny Pajor - Strona informacyjna</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="description" content="Strona informacyjna i zbiórka na leczenie Mileny Pajor">
@@ -36,8 +38,19 @@
 
     <main>
         <div class="container">
+            <!-- Tracker zebranych pieniędzy -->
+            <div class="money-tracker">
+                <div class="tracker-container">
+                    <h3 class="tracker-title">Zebraliśmy już ponad:</h3>
+                    <div class="money-display">
+                        <div class="money-value" id="collected-amount">110.000 PLN</div>
+                    </div>
+                    <p class="tracker-thanks">Dziękujemy wam z całego serca</p>
+                </div>
+            </div>
+
             <!-- Timer hospitalizacji -->
-            <section class="hospitalization-timer">
+            <div class="hospitalization-timer">
                 <div class="timer-container">
                     <div class="timer-display">
                         <div class="timer-section">
@@ -84,13 +97,21 @@
                         </div>
                     </div>
                     
-                    <!-- Liczba operacji -->
-                    <div class="operations-counter">
-                        <div class="operations-title">Liczba operacji i zabiegów:</div>
-                        <div class="operations-value">20</div>
+                    <!-- Operacje i zabiegi -->
+                    <div class="procedures-counter">
+                        <div class="procedures-display">
+                            <div class="procedure-item">
+                                <div class="procedure-title">Operacje:</div>
+                                <div class="procedure-value">20</div>
+                            </div>
+                            <div class="procedure-item">
+                                <div class="procedure-title">Zabiegi:</div>
+                                <div class="procedure-value">64</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <!-- Sekcja głównych informacji -->
             <section class="info-section">
