@@ -194,5 +194,70 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Inline timer backup - uruchamia się niezależnie od zewnętrznego pliku
+        function initInlineTimer() {
+            const now = new Date();
+            
+            // Data rozpoczęcia hospitalizacji: 2 września 2025
+            const hospitalStartDate = new Date('2025-09-02T00:00:00');
+            // Data rozpoczęcia OIOM: 20 września 2025  
+            const icuStartDate = new Date('2025-09-20T00:00:00');
+            
+            function updateTimer() {
+                const now = new Date();
+                
+                // Oblicz czas w szpitalu
+                const hospitalTimeDiff = now - hospitalStartDate;
+                const hospitalDays = Math.floor(hospitalTimeDiff / (1000 * 60 * 60 * 24));
+                const hospitalHours = Math.floor((hospitalTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const hospitalMinutes = Math.floor((hospitalTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const hospitalSeconds = Math.floor((hospitalTimeDiff % (1000 * 60)) / 1000);
+                
+                // Oblicz czas na OIOM
+                let icuDays = 0, icuHours = 0, icuMinutes = 0, icuSeconds = 0;
+                if (now >= icuStartDate) {
+                    const icuTimeDiff = now - icuStartDate;
+                    icuDays = Math.floor(icuTimeDiff / (1000 * 60 * 60 * 24));
+                    icuHours = Math.floor((icuTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    icuMinutes = Math.floor((icuTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    icuSeconds = Math.floor((icuTimeDiff % (1000 * 60)) / 1000);
+                }
+                
+                // Aktualizuj elementy szpitala
+                const hospitalDaysEl = document.getElementById('hospital-days');
+                const hospitalHoursEl = document.getElementById('hospital-hours');
+                const hospitalMinutesEl = document.getElementById('hospital-minutes');
+                const hospitalSecondsEl = document.getElementById('hospital-seconds');
+                
+                if (hospitalDaysEl) hospitalDaysEl.textContent = hospitalDays.toString().padStart(2, '0');
+                if (hospitalHoursEl) hospitalHoursEl.textContent = hospitalHours.toString().padStart(2, '0');
+                if (hospitalMinutesEl) hospitalMinutesEl.textContent = hospitalMinutes.toString().padStart(2, '0');
+                if (hospitalSecondsEl) hospitalSecondsEl.textContent = hospitalSeconds.toString().padStart(2, '0');
+                
+                // Aktualizuj elementy OIOM
+                const icuDaysEl = document.getElementById('icu-days');
+                const icuHoursEl = document.getElementById('icu-hours');
+                const icuMinutesEl = document.getElementById('icu-minutes');
+                const icuSecondsEl = document.getElementById('icu-seconds');
+                
+                if (icuDaysEl) icuDaysEl.textContent = icuDays.toString().padStart(2, '0');
+                if (icuHoursEl) icuHoursEl.textContent = icuHours.toString().padStart(2, '0');
+                if (icuMinutesEl) icuMinutesEl.textContent = icuMinutes.toString().padStart(2, '0');
+                if (icuSecondsEl) icuSecondsEl.textContent = icuSeconds.toString().padStart(2, '0');
+            }
+            
+            // Uruchom natychmiast i co sekundę
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+        
+        // Uruchom timer gdy strona się załaduje
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initInlineTimer);
+        } else {
+            initInlineTimer();
+        }
+    </script>
 </body>
 </html>

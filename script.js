@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUpdatesFromStorage();
     initializeUpdateForm();
     updateLastUpdatePreview(); // Nowa funkcja dla preview
-    initializeHospitalizationTimer(); // Timer hospitalizacji
     
     // Sprawdź czy admin był zalogowany
     const isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
@@ -607,72 +606,4 @@ function refreshDrive() {
 function openInDrive() {
     const folderUrl = 'https://drive.google.com/drive/folders/1O3TvboZU8er6acag193LQyoWGbDjV1KN?usp=sharing';
     window.open(folderUrl, '_blank');
-}
-
-// ===== TIMER HOSPITALIZACJI =====
-
-// Inicjalizacja timera hospitalizacji
-function initializeHospitalizationTimer() {
-    // Sprawdź czy elementy timera istnieją na stronie
-    const hospitalElement = document.getElementById('hospital-days');
-    const icuElement = document.getElementById('icu-days');
-    
-    if (hospitalElement || icuElement) {
-        updateHospitalizationTimer();
-        // Aktualizuj co sekundę
-        setInterval(updateHospitalizationTimer, 1000);
-    }
-}
-
-// Aktualizacja timera hospitalizacji
-function updateHospitalizationTimer() {
-    const now = new Date();
-    
-    // Data rozpoczęcia hospitalizacji: 2 września 2025
-    const hospitalStartDate = new Date('2025-09-02T00:00:00');
-    
-    // Data rozpoczęcia OIOM: 20 września 2025  
-    const icuStartDate = new Date('2025-09-20T00:00:00');
-    
-    // Oblicz czas w szpitalu
-    const hospitalTimeDiff = now - hospitalStartDate;
-    const hospitalDays = Math.floor(hospitalTimeDiff / (1000 * 60 * 60 * 24));
-    const hospitalHours = Math.floor((hospitalTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const hospitalMinutes = Math.floor((hospitalTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const hospitalSeconds = Math.floor((hospitalTimeDiff % (1000 * 60)) / 1000);
-    
-    // Oblicz czas na OIOM (tylko jeśli już się rozpoczął)
-    let icuDays = 0, icuHours = 0, icuMinutes = 0, icuSeconds = 0;
-    if (now >= icuStartDate) {
-        const icuTimeDiff = now - icuStartDate;
-        icuDays = Math.floor(icuTimeDiff / (1000 * 60 * 60 * 24));
-        icuHours = Math.floor((icuTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        icuMinutes = Math.floor((icuTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        icuSeconds = Math.floor((icuTimeDiff % (1000 * 60)) / 1000);
-    }
-    
-    // Aktualizuj elementy szpitala
-    updateTimerElement('hospital-days', hospitalDays.toString().padStart(2, '0'));
-    updateTimerElement('hospital-hours', hospitalHours.toString().padStart(2, '0'));
-    updateTimerElement('hospital-minutes', hospitalMinutes.toString().padStart(2, '0'));
-    updateTimerElement('hospital-seconds', hospitalSeconds.toString().padStart(2, '0'));
-    
-    // Aktualizuj elementy OIOM
-    updateTimerElement('icu-days', icuDays.toString().padStart(2, '0'));
-    updateTimerElement('icu-hours', icuHours.toString().padStart(2, '0'));
-    updateTimerElement('icu-minutes', icuMinutes.toString().padStart(2, '0'));
-    updateTimerElement('icu-seconds', icuSeconds.toString().padStart(2, '0'));
-}
-
-// Pomocnicza funkcja do aktualizacji elementów timera
-function updateTimerElement(id, value) {
-    const element = document.getElementById(id);
-    if (element && element.textContent !== value) {
-        element.textContent = value;
-        // Animacja przy zmianie
-        element.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            element.style.transform = 'scale(1)';
-        }, 150);
-    }
 }
