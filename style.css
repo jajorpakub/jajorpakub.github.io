@@ -174,7 +174,9 @@ section h2 {
     padding-bottom: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    text-align: center;
 }
 
 section h2 i {
@@ -187,7 +189,9 @@ section h3 {
     font-size: 1.3rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    text-align: center;
 }
 
 section h3 i {
@@ -196,25 +200,9 @@ section h3 i {
 
 /* Hospitalization Timer */
 .hospitalization-timer {
-    background: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
-    color: white;
     margin-bottom: 30px;
     text-align: center;
     padding: 40px 30px;
-}
-
-.hospitalization-timer h2 {
-    color: white;
-    border-bottom: 2px solid rgba(255,255,255,0.3);
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
-
-.hospitalization-timer h3 {
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    font-weight: 500;
 }
 
 .timer-container {
@@ -235,6 +223,17 @@ section h3 i {
     min-width: 320px;
 }
 
+.timer-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    display: block !important;
+    justify-content: center;
+    gap: 0;
+}
+
 .timer-row {
     display: flex;
     justify-content: center;
@@ -243,7 +242,6 @@ section h3 i {
 }
 
 .timer-unit {
-    background: rgba(0,0,0,0.4);
     border-radius: 8px;
     padding: 15px 10px;
     min-width: 60px;
@@ -253,29 +251,25 @@ section h3 i {
 .timer-value {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #fff;
-    margin-bottom: 5px;
+    color: #333;
+    margin-bottom: 2px;
     font-family: 'Courier New', monospace;
     transition: transform 0.15s ease;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: none;
+    border: 2px solid #000;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: inline-block;
 }
 
 .timer-label {
     font-size: 0.7rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.8);
+    color: #333;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-.timer-details {
-    text-align: center;
-    opacity: 0.9;
-    font-size: 0.9rem;
-}
-
-.timer-details i {
-    margin-right: 5px;
+    margin-top: 2px;
 }
 
 /* Responsive timer */
@@ -300,13 +294,10 @@ section h3 i {
     
     .timer-value {
         font-size: 2rem;
+        padding: 6px 10px;
     }
     
-    .hospitalization-timer h2 {
-        font-size: 1.5rem;
-    }
-    
-    .hospitalization-timer h3 {
+    .timer-section h3 {
         font-size: 1rem;
     }
 }
@@ -314,6 +305,7 @@ section h3 i {
 @media (max-width: 480px) {
     .timer-value {
         font-size: 1.5rem;
+        padding: 5px 8px;
     }
     
     .timer-label {
@@ -323,6 +315,63 @@ section h3 i {
     .timer-unit {
         min-width: 45px;
         padding: 8px 6px;
+    }
+}
+
+/* Operations counter */
+.operations-counter {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+.operations-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.operations-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Courier New', monospace;
+    border: 2px solid #000;
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px 25px;
+    display: inline-block;
+    text-shadow: none;
+}
+
+/* Responsive operations counter */
+@media (max-width: 768px) {
+    .operations-counter {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+    
+    .operations-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .operations-value {
+        font-size: 2.5rem;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .operations-value {
+        font-size: 2rem;
+        padding: 10px 18px;
+    }
+    
+    .operations-title {
+        font-size: 0.9rem;
     }
 }
 
